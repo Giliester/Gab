@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4557989743638677414}
   - component: {fileID: 4153287095927400871}
-  - component: {fileID: 7231933757173505653}
   - component: {fileID: 2989827381946875632}
   - component: {fileID: 4835128838344569391}
   - component: {fileID: 5611581713983826660}
+  - component: {fileID: 7231933757173505653}
   m_Layer: 0
   m_Name: Atacante
   m_TagString: Enemigo
@@ -88,23 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7231933757173505653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6419009993847269801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00fb40493f0299045bd08b18cb2b9f50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  Distance: 5
-  enemigoExplocion: {fileID: 4913095173025409320, guid: 082ece2032e06084584d14e705bce380, type: 3}
-  proyectil: {fileID: 201249135820372303, guid: 107e1ddb77b0f8e4baca698ef58a311a, type: 3}
-  Destrullendo: 0
 --- !u!82 &2989827381946875632
 AudioSource:
   m_ObjectHideFlags: 0
@@ -250,7 +233,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -263,3 +246,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7231933757173505653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6419009993847269801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00fb40493f0299045bd08b18cb2b9f50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explocionPrefab: {fileID: 4913095173025409320, guid: 082ece2032e06084584d14e705bce380, type: 3}
+  velocidad: 4
+  proyectil: {fileID: 201249135820372303, guid: 107e1ddb77b0f8e4baca698ef58a311a, type: 3}

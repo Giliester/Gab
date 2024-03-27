@@ -102,8 +102,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 0.05
+  m_AngularDrag: 1000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77e94fb5b100764798a23bddfb3b1f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vida: 0
+  explocionPrefab: {fileID: 7391759013334941177, guid: 62fd442cbdf23e94bb854b16b6d91f51, type: 3}
+  velocidad: 8
   proyectil: {fileID: 201249135820372303, guid: ed55d0286f34dba4985dd7e75f4b7f7e, type: 3}
   NaveNormal: {r: 1, g: 0.09019608, b: 0.23137255, a: 1}
   NaveCritico: {r: 1, g: 0.84390527, b: 0.6666667, a: 0.4627451}

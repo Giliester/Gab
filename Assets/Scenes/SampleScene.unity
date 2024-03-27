@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 54993496}
   - component: {fileID: 54993495}
   m_Layer: 5
-  m_Name: Max TXT
+  m_Name: Ronda Texto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 199043355}
   - component: {fileID: 199043354}
   m_Layer: 5
-  m_Name: Ronda Max TXT
+  m_Name: Ronda Max Texto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -690,42 +690,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aebd0d5034fafdc41abdfb551b7a9018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Colores:
-  - {r: 0.19215687, g: 0.15294118, b: 0.21176471, a: 1}
-  - {r: 0.83137256, g: 0.5137255, b: 0.56078434, a: 1}
-  - {r: 0.8392157, g: 0.67058825, b: 0.69411767, a: 1}
-  - {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
-  - {r: 0.76862746, g: 1, b: 0.92156863, a: 1}
-  - {r: 0.23529412, g: 0.31764707, b: 0.3647059, a: 1}
-  - {r: 0.23921569, g: 0.40784314, b: 0.40784314, a: 1}
-  - {r: 0.2509804, g: 0.58431375, b: 0.49803922, a: 1}
-  - {r: 0.654902, g: 0.7764706, b: 0.5254902, a: 1}
-  - {r: 0.9882353, g: 0.93333334, b: 0.54901963, a: 1}
-  - {r: 0.2901961, g: 0.92941177, b: 0.84313726, a: 1}
-  - {r: 0.4392157, g: 0.3372549, b: 0.2784314, a: 1}
-  - {r: 0.92941177, g: 0.42745098, b: 0.2901961, a: 1}
-  - {r: 1, g: 0.7921569, b: 0.39215687, a: 1}
-  - {r: 0.24705882, g: 0.8509804, b: 0.49803922, a: 1}
   FondoNormal: {r: 0.76862746, g: 1, b: 0.92156863, a: 1}
   FondoCritico: {r: 0.8509804, g: 0.8509804, b: 0.8509804, a: 1}
   "Vi\xF1etaNormal": {r: 0, g: 0, b: 0, a: 1}
   "Vi\xF1etaCritico": {r: 0.764151, g: 0.2270826, b: 0.2270826, a: 1}
-  Audio: {fileID: 0}
-  Tick: {fileID: 1053817750}
+  Audio: {fileID: 311423230}
   AudioFondo: {fileID: 8300000, guid: 443d7162ba5d8ae4ba36f7e328a456af, type: 3}
-  AudioMenu: {fileID: 8300000, guid: 80e2a553f1cf2b24da713ddc3b459b96, type: 3}
-  AudioTuto: {fileID: 8300000, guid: e24cc2977b3bbe044b0efa0ef06dddf7, type: 3}
-  Panel: {fileID: 1075130128}
-  RondaMax: {fileID: 54993495}
-  Menu: {fileID: 1552361986}
-  Info: {fileID: 573868240}
-  interactuable: 0
   Enemigos:
   - {fileID: 2495493025491136370, guid: 9b915498fe80a704f8fa1c3700555972, type: 3}
   - {fileID: 6419009993847269801, guid: 2a4717d8d91e6314e990907778942240, type: 3}
-  Plataforma: {fileID: 2094730492}
-  PlataformaTexto: {fileID: 2111664513}
+  menu: {fileID: 1387036534}
+  plataforma: {fileID: 2094730496}
   JugadorInstancia: {fileID: 5810239105987168233, guid: 176c53e48890aeb4290d83214caa0d71, type: 3}
+  Jugador: {fileID: 0}
   enJuego: 0
   gano: 0
   ronda: 1
@@ -742,8 +719,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1053817749}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &311423230
@@ -925,8 +901,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 311423228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1387036534}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: Salir
         m_Mode: 1
         m_Arguments:
@@ -1054,7 +1030,7 @@ GameObject:
   - component: {fileID: 413398925}
   - component: {fileID: 413398926}
   m_Layer: 0
-  m_Name: Interior
+  m_Name: Interior (Visual)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1210,8 +1186,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 311423228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1387036534}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: BotonJugar
         m_Mode: 1
         m_Arguments:
@@ -1498,7 +1474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 573868241}
   m_Layer: 5
-  m_Name: Info
+  m_Name: Info Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1748,8 +1724,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 311423228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1387036534}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: UIInstrucciones
         m_Mode: 1
         m_Arguments:
@@ -2301,11 +2277,11 @@ Transform:
   m_GameObject: {fileID: 1053817748}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 311423229}
+  m_Father: {fileID: 2094730494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1053817750
 AudioSource:
@@ -2549,7 +2525,7 @@ GameObject:
   - component: {fileID: 1075130129}
   - component: {fileID: 1075130128}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Panel Principal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3245,6 +3221,7 @@ GameObject:
   - component: {fileID: 1387036530}
   - component: {fileID: 1387036529}
   - component: {fileID: 1387036533}
+  - component: {fileID: 1387036534}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -3347,6 +3324,24 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1387036534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387036528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a00df08d1b3884345a5b05a07697d8cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelPrincipal: {fileID: 1075130128}
+  rondaMaxTexto: {fileID: 199043354}
+  menuPanel: {fileID: 1552361986}
+  infoPanel: {fileID: 573868240}
+  audioMenu: {fileID: 8300000, guid: 80e2a553f1cf2b24da713ddc3b459b96, type: 3}
+  audioTuto: {fileID: 8300000, guid: e24cc2977b3bbe044b0efa0ef06dddf7, type: 3}
 --- !u!1 &1552361986
 GameObject:
   m_ObjectHideFlags: 0
@@ -3357,7 +3352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1552361987}
   m_Layer: 5
-  m_Name: Menu
+  m_Name: Menu Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3534,7 +3529,7 @@ GameObject:
   - component: {fileID: 1686395016}
   - component: {fileID: 1686395015}
   m_Layer: 5
-  m_Name: Contador
+  m_Name: Plataforma Texto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3903,8 +3898,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 311423228}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: 1387036534}
+        m_TargetAssemblyTypeName: Menu, Assembly-CSharp
         m_MethodName: UIMenu
         m_Mode: 1
         m_Arguments:
@@ -4039,6 +4034,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1053817749}
   - {fileID: 413398925}
   - {fileID: 1686395014}
   m_Father: {fileID: 0}
@@ -4090,7 +4086,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f07e88c63f77094ca50c6ebdd12a34b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jugadorExplocion: {fileID: 7391759013334941177, guid: 62fd442cbdf23e94bb854b16b6d91f51, type: 3}
+  explocionPrefab: {fileID: 0}
+  velocidad: 0
+  indestructible: 1
+  texto: {fileID: 2111664513}
+  Tick: {fileID: 1053817750}
+  rondaTexto: {fileID: 54993495}
 --- !u!50 &2094730497
 Rigidbody2D:
   serializedVersion: 4
@@ -4226,7 +4227,7 @@ GameObject:
   - component: {fileID: 2111664514}
   - component: {fileID: 2111664513}
   m_Layer: 5
-  m_Name: ContadorTxt
+  m_Name: Texto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,30 +6,21 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Game;
+    public static GameManager Juego;
     [Header("Colores")]
-    public List<Color> Colores = new List<Color>();
     public Color FondoNormal;
     public Color FondoCritico;
     public Color ViñetaNormal;
     public Color ViñetaCritico;
     public AudioSource Audio;
-    public AudioSource Tick;
     public AudioClip AudioFondo;
-    public AudioClip AudioMenu;
-    public AudioClip AudioTuto;
-    [Header("UI")]
-    public Image Panel;
-    public TMP_Text RondaMax;
-    public GameObject Menu;
-    public GameObject Info;
-    public bool interactuable;
     [Header("Enemigos")]
     public List<GameObject> Enemigos;
     [Header("Referencias")]
-    public GameObject Plataforma;
-    public TMP_Text PlataformaTexto;
+    public Menu menu;
+    public Plataforma plataforma;
     public GameObject JugadorInstancia;
+    public Jugador Jugador;
     public bool enJuego;
     public bool gano;
     public float ronda = 1;
@@ -38,78 +29,23 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Game == null)
-            Game = this;
+        if (Juego == null)
+            Juego = this;
         else
             Destroy(this.gameObject);
     }
     void Start()
     {
-        Audio = GetComponent<AudioSource>();
-        if (PlayerPrefs.HasKey("Ronda"))
-        {
-            rondaMax = PlayerPrefs.GetInt("Ronda");
-        }
-        else
-        {
-            rondaMax = 0;
-            PlayerPrefs.SetInt("Ronda",rondaMax);
-        }
-        StartCoroutine(MostrarMenu());
+        ObtenerDatos();
+        StartCoroutine(menu.MostrarMenu());
     }
 
-    void Update()
+    public IEnumerator Jugar()
     {
-        RondaMax.text = rondaMax.ToString();
-    }
-
-    IEnumerator MostrarMenu()
-    {
-        UIMenu();
-        enJuego = false;
-        Audio.clip = AudioMenu;
-        Audio.Play();
-        Panel.gameObject.SetActive(true);
-        PostProcess.Activate();
-        float t = 0;
-        while (t < 1)
-        {
-            t += Time.deltaTime;
-            Panel.transform.GetComponentInParent<CanvasGroup>().alpha = Mathf.Lerp(0, 1, t / 1);
-            PostProcess.Depth.focalLength.value = Mathf.Lerp(0, 300, t/1);
-            Audio.volume = Mathf.Clamp01(t/1);
-            yield return null;
-        }
-        interactuable = true;
-    }
-    IEnumerator OcultarMenu()
-    {
-        interactuable = false;
-        float t = 0;
-        while (t < 1)
-        {
-            t += Time.deltaTime;
-            Panel.transform.GetComponentInParent<CanvasGroup>().alpha = Mathf.Lerp(1, 0, t / 1);
-            Audio.volume = 1 - Mathf.Clamp01(t / 1);
-            yield return null;
-        }
-        Menu.SetActive(false);
-        Info.SetActive(false);
-        yield return null;
-    }
-
-    public void BotonJugar()
-    {
-        if(interactuable)
-        StartCoroutine(Jugar());
-    }
-
-    IEnumerator Jugar()
-    {
-        yield return StartCoroutine(OcultarMenu());
+        yield return StartCoroutine(menu.OcultarMenu());
         Camera.main.orthographic = false;
         PostProcess.Depth.focalLength.value = 300;
-        PlataformaTexto.text = "";
+        plataforma.PlataformaTexto = "";
         Audio.clip = AudioFondo;
         Audio.Play();
         Camera.main.backgroundColor = FondoNormal;
@@ -118,54 +54,33 @@ public class GameManager : MonoBehaviour
         while (t < 3)
         {
             t += Time.deltaTime;
-            Plataforma.transform.position = new Vector3(0, 0, Mathf.Lerp(-10, 0, t));
+            plataforma.transform.position = new Vector3(0, 0, Mathf.Lerp(-10, 0, t));
             PostProcess.Depth.focalLength.value = Mathf.Lerp(300, 0, t/2);
             Audio.volume = Mathf.Clamp01(t / 2);
             yield return null;
-
         }
         ronda = 1;
         Camera.main.orthographic = true;
         StartCoroutine(Oleada());
     }
-    public IEnumerator FinPartida()
-    {
-        yield return StartCoroutine(MostrarMenu());
-        yield return null;
-    }
     IEnumerator Oleada()
     {
-        foreach (var a in GameObject.FindObjectsOfType<Atacante>())
+        foreach (var e in FindObjectsOfType<Entidad>())
         {
-            StartCoroutine(a.GetComponent<Atacante>().Destruir());
+            if(!(e is Jugador))
+                StartCoroutine(e.Destruir());
         }
-        foreach (var e in GameObject.FindObjectsOfType<Enemigo>())
-        {
-            StartCoroutine(e.GetComponent<Enemigo>().Destruir());
-        }
-        foreach (var p in GameObject.FindObjectsOfType<Proyectil>())
-        {
-            Destroy(p.gameObject);
-        }
-        foreach (var p in GameObject.FindObjectsOfType<Punto>())
-        {
-            Destroy(p.gameObject);
-        }
-        PlataformaTexto.text = "Ronda: " + ronda;
-        yield return new WaitForSeconds(3);
-        PlataformaTexto.text = "3";
-        Tick.Play();
-        yield return new WaitForSeconds(1);
-        PlataformaTexto.text = "2";
-        Tick.Play();
-        yield return new WaitForSeconds(1);
-        PlataformaTexto.text = "1";
-        Tick.Play();
-        yield return new WaitForSeconds(1);
+
+        yield return StartCoroutine(plataforma.Cuenta());
+
         enJuego = true;
         gano = false;
-        Instantiate(JugadorInstancia);
-        Jugador.JugadorIns.vida = 100;
+
+        if(Jugador == null)
+            Jugador = Instantiate(JugadorInstancia).GetComponent<Jugador>();
+
+        Jugador.Vida = 100;
+
         Camera.main.backgroundColor = FondoNormal;
         PostProcess.Vignette.color.value = ViñetaNormal;
         tiempo = (int)(60 * (ronda / 2));
@@ -173,6 +88,7 @@ public class GameManager : MonoBehaviour
         int NumEnemig = (int)(tiempo / EnemigosNum);
         int PuntosNum = (int)EnemigosNum / 5;
         int NumPuntos = (int)(tiempo / PuntosNum);
+
         while (tiempo > 0 && enJuego)
         {
             int e = 0;
@@ -197,65 +113,45 @@ public class GameManager : MonoBehaviour
                     PuntosNum--;
                 }
             }
-            PlataformaTexto.text = tiempo.ToString();
+            plataforma.PlataformaTexto = tiempo.ToString();
             yield return new WaitForSeconds(0.5f);
             tiempo--;
-            if(Jugador.JugadorIns.vida <= 0)
-            {
-                StartCoroutine(FinPartida());
-                Camera.main.backgroundColor = FondoCritico;
-                PostProcess.Vignette.color.value = ViñetaCritico;
-                Jugador.JugadorIns.GetComponent<Collider2D>().enabled = false;
-                Jugador.JugadorIns.GetComponent<SpriteRenderer>().enabled = false;
-                Jugador.JugadorIns.GetComponent<AudioSource>().Play();
-                enJuego = false;
-                Instantiate(Plataforma.GetComponent<Plataforma>().jugadorExplocion, Jugador.JugadorIns.gameObject.transform.position, Jugador.JugadorIns.gameObject.transform.rotation);
-                Jugador.Desenlazar();
-                yield return new WaitWhile(() => Jugador.JugadorIns.GetComponent<AudioSource>().isPlaying);
-                Destroy(Jugador.JugadorIns.gameObject);
-            }
         }
         if (tiempo <= 0)
         {
-            gano = true;
-            ronda++;
-            if(ronda > rondaMax)
-            {
-                rondaMax = (int)ronda;
-                PlayerPrefs.SetInt("Ronda", rondaMax);
-            }
-            StartCoroutine(Oleada());
+            Gano();
         }
-        yield return null;
     }
-    public void Salir()
+    private void ObtenerDatos()
     {
-        if (interactuable)
+        if (PlayerPrefs.HasKey("Ronda"))
+            rondaMax = PlayerPrefs.GetInt("Ronda");
+        else
         {
-            StopAllCoroutines();
-            Application.Quit();
+            rondaMax = 0;
+            PlayerPrefs.SetInt("Ronda", rondaMax);
         }
     }
-    public void UIMenu()
+    private void Gano()
     {
-        Menu.SetActive(true);
-        Info.SetActive(false);
+        gano = true;
+        ronda++;
+        if (ronda > rondaMax)
+        {
+            rondaMax = (int)ronda;
+            PlayerPrefs.SetInt("Ronda", rondaMax);
+        }
+        StartCoroutine(Oleada());
     }
-    public void UIInstrucciones()
+    public IEnumerator FinPartida()
     {
-        Menu.SetActive(false);
-        Info.SetActive(true);
+        yield return StartCoroutine(menu.MostrarMenu());
     }
-    public Vector3 Pos(int x, int y, int r)
+    public Vector3 Pos(int x, int y, int r = 0)
     {
-        Vector2 random = new Vector2(Random.Range(-x / 2, x / 2), Random.Range(-y / 2, y / 2));
+        Vector2 random = new(Random.Range(-x / 2, x / 2), Random.Range(-y / 2, y / 2));
         if(random.magnitude < r)
             return Pos(x, y, r);
-        return new Vector3(random.x, random.y, 0);
-    }
-    public Vector3 Pos(int x, int y)
-    {
-        Vector2 random = new Vector2(Random.Range(-x / 2, x / 2), Random.Range(-y / 2, y / 2));
-        return new Vector3(random.x, random.y, 0);
+        return new(random.x, random.y, 0);
     }
 }

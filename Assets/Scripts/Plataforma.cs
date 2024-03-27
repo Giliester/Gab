@@ -1,17 +1,22 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.PostProcessing;
 
-public class Plataforma : MonoBehaviour
+public class Plataforma : Entidad
 {
-    private bool enPlataforma;
-    private string jugadorTag = "Jugador";
-    public GameObject jugadorExplocion;
+    public TMP_Text texto;
+    public string PlataformaTexto { set { texto.text = value; } }
+    public AudioSource Tick;
+    public TMP_Text rondaTexto;
+    string RondaMaxTexto { set { rondaTexto.text = value; } }
+    bool enPlataforma;
+    void Update()
+    {
+        RondaMaxTexto = GameManager.Juego.rondaMax.ToString();
+    }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag(jugadorTag))
+        if(collision.gameObject.TryGetComponent(out Entidad e) && e == Jugador)
         {
             enPlataforma = false;
             StartCoroutine(Salio());
@@ -19,48 +24,45 @@ public class Plataforma : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(jugadorTag))
-        {
+        if (collision.gameObject.TryGetComponent(out Entidad e) && e == Jugador)
             enPlataforma = true;
-        }
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    public IEnumerator Cuenta()
     {
-        if (collision.gameObject.CompareTag(jugadorTag))
-        {
-            enPlataforma = true;
-        }
+        PlataformaTexto = "Ronda: " + GameManager.Juego.ronda;
+        yield return new WaitForSeconds(3);
+        PlataformaTexto = "3";
+        Tick.Play();
+        yield return new WaitForSeconds(1);
+        PlataformaTexto = "2";
+        Tick.Play();
+        yield return new WaitForSeconds(1);
+        PlataformaTexto = "1";
+        Tick.Play();
+        yield return new WaitForSeconds(1);
     }
     public IEnumerator Salio()
     {
         float t = 3;
         while (t >= 0 && !enPlataforma)
         {
-            Camera.main.backgroundColor = GameManager.Game.FondoCritico;
-            PostProcess.Vignette.color.value = GameManager.Game.ViñetaCritico;
+            Camera.main.backgroundColor = GameManager.Juego.FondoCritico;
+            PostProcess.Vignette.color.value = GameManager.Juego.ViñetaCritico;
             GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(0.5f);
-            Camera.main.backgroundColor = GameManager.Game.FondoNormal;
-            PostProcess.Vignette.color.value = GameManager.Game.ViñetaNormal;
+            Camera.main.backgroundColor = GameManager.Juego.FondoNormal;
+            PostProcess.Vignette.color.value = GameManager.Juego.ViñetaNormal;
             yield return new WaitForSeconds(0.5f);
             t -=0.75f;
             if (enPlataforma)
                 break;
         }
-        if (t <= 0 && Jugador.JugadorIns != null)
-        {
-            GameManager.Game.StartCoroutine(GameManager.Game.FinPartida());
-            Camera.main.backgroundColor = GameManager.Game.FondoCritico;
-            PostProcess.Vignette.color.value = GameManager.Game.ViñetaCritico;
-            Jugador.JugadorIns.GetComponent<Collider2D>().enabled = false;
-            Jugador.JugadorIns.GetComponent<SpriteRenderer>().enabled = false;
-            Jugador.JugadorIns.GetComponent<AudioSource>().Play();
-            GameManager.Game.enJuego = false;
-            Instantiate(jugadorExplocion, Jugador.JugadorIns.gameObject.transform.position, Jugador.JugadorIns.gameObject.transform.rotation);
-            Jugador.Desenlazar();
-            yield return new WaitWhile(() => Jugador.JugadorIns.GetComponent<AudioSource>().isPlaying);
-            Destroy(Jugador.JugadorIns.gameObject);
-        }
+        if (t <= 0 && GameManager.Juego.Jugador != null)
+            GameManager.Juego.Jugador.Vida = 0;
+        yield return null;
+    }
+    public override IEnumerator Destruir()
+    {
         yield return null;
     }
 }
